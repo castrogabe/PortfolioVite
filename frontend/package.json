@@ -3,16 +3,24 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
+    "preinstall": "node -e \"if (parseInt(process.versions.node) < 20) { console.error('❌ Node 20+ required'); process.exit(1) }\"",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
+    "bootstrap": "^5.3.7",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "react-router-dom": "^7.8.1"
+    "react-helmet-async": "^2.0.5",
+    "react-router-dom": "^7.8.1",
+    "react-toastify": "^10.0.5",
+    "typewriter-effect": "^2.21.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",

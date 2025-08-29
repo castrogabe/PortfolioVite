@@ -1,19 +1,18 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, ScrollRestoration } from 'react-router-dom';
 import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
-import './App.css';
+import BottomFooter from './components/BottomFooter.jsx';
 
 export default function App() {
   return (
-    <div
-      className='app'
-      style={{ minHeight: '100dvh', display: 'flex', flexDirection: 'column' }}
-    >
+    <div className='app'>
       <Header />
-      <main style={{ padding: 16, flex: 1 }}>
+      <main>
         <Outlet />
+        <ScrollRestoration />
       </main>
       <Footer />
+      <BottomFooter />
     </div>
   );
 }
