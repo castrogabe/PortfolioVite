@@ -91,3 +91,13 @@ App.jsx > delete App.css
 
 folder: styles
 index.css > updated with links to individual pages and components
+
+# 4th Commit-Design, Contact pages
+
+FRONTEND
+folder: pages
+Contact.jsx > added
+Design.jsx > updated
+
+main.jsx > updated with StoreProvider
+Store.jsx > added
