@@ -101,3 +101,33 @@ Design.jsx > updated
 
 main.jsx > updated with StoreProvider
 Store.jsx > added
+
+# 5th Commit-Backend (ESM), Admin, Messages
+
+BACKEND
+NEW TERMINAL: mkdir backend > cd backend > npm init -y
+npm install bcryptjs cors dotenv express express-async-handler jsonwebtoken mongoose multer nodemailer
+npm install --save-dev nodemon
+(backend we are using ex: server.js not server.jsx, .jsx is for the frontend)
+
+folder: models
+messageModel.js > added
+userModel.js > added
+
+folder: routes
+messageRoutes.js > added
+userRoutes.js > added
+
+.env > added for connection > use .gitignore to prevent from pushing to github
+.env.example > added
+
+server.js > updated
+{}package.json > updated
+
+FRONTEND
+folder: components
+AdminPagination.jsx > added
+Header.jsx > updated
+
+folder: pages
+Messages.jsx > added
