@@ -1,26 +1,18 @@
 // src/components/Header.jsx
-import { NavLink, Link, useNavigate, useLocation } from 'react-router-dom';
-import { useContext } from 'react';
-import { Store } from '../Store';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 
-export default function Header() {
-  const { state, dispatch: ctxDispatch } = useContext(Store);
-  const { userInfo } = state;
+export default function Header({ userInfo: propUser }) {
+  // Optional: read from localStorage if no prop is passed
+  const userInfo =
+    propUser ?? JSON.parse(localStorage.getItem('userInfo') || 'null');
   const navigate = useNavigate();
-  const location = useLocation();
 
   const navLink = ({ isActive }) => 'nav-link' + (isActive ? ' active' : '');
 
   const signoutHandler = () => {
-    ctxDispatch({ type: 'USER_SIGNOUT' });
     localStorage.removeItem('userInfo');
     navigate('/signin');
   };
-
-  // send users back to where they started after signin
-  const signInHref = `/signin?redirect=${encodeURIComponent(
-    location.pathname + location.search
-  )}`;
 
   return (
     <header>
@@ -43,54 +35,27 @@ export default function Header() {
           </button>
 
           <div className='collapse navbar-collapse' id='mainNavbar'>
-            <ul className='navbar-nav ms-auto w-100 justify-content-end align-items-lg-center'>
-              {/* About Us dropdown */}
-              <li className='nav-item dropdown'>
-                <button
-                  className='nav-link dropdown-toggle'
-                  id='aboutDropdown'
-                  data-bs-toggle='dropdown'
-                  aria-expanded='false'
-                  type='button'
-                >
-                  About Us
-                </button>
-                <ul className='dropdown-menu' aria-labelledby='aboutDropdown'>
-                  <li>
-                    <Link className='dropdown-item' to='/about'>
-                      About Us
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className='dropdown-item' to='/contact'>
-                      Contact Us
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className='dropdown-item' to='/faq'>
-                      FAQ
-                    </Link>
-                  </li>
-                </ul>
+            <ul className='navbar-nav ms-auto align-items-lg-center'>
+              {/* Regular links */}
+              <li className='nav-item'>
+                <NavLink to='/about' className={navLink}>
+                  <i className='fas fa-briefcase' aria-hidden='true' /> About Us
+                </NavLink>
               </li>
-
-              {/* Portfolio */}
               <li className='nav-item'>
                 <NavLink to='/portfolio' className={navLink}>
                   <i className='fas fa-briefcase' aria-hidden='true' />{' '}
                   Portfolio
                 </NavLink>
               </li>
-
-              {/* Web Design (use your preferred route) */}
               <li className='nav-item'>
-                <NavLink to='/webdesign' className={navLink}>
+                <NavLink to='/design' className={navLink}>
                   <i className='fas fa-layer-group' aria-hidden='true' /> Web
                   Design
                 </NavLink>
               </li>
 
-              {/* Auth menu */}
+              {/* Auth menu added later*/}
               {userInfo ? (
                 <li className='nav-item dropdown'>
                   <button
@@ -126,7 +91,7 @@ export default function Header() {
                 </li>
               ) : (
                 <li className='nav-item'>
-                  <NavLink to={signInHref} className={navLink}>
+                  <NavLink to='/signin' className={navLink}>
                     <i className='fas fa-sign-in-alt' aria-hidden='true' /> Sign
                     In
                   </NavLink>

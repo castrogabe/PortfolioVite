@@ -131,3 +131,26 @@ Header.jsx > updated
 
 folder: pages
 Messages.jsx > added
+
+# 6th Commit-Admin Signup, Signin, Messages, Upload seed data,
+
+BACKEND
+folder: models
+websiteModel.js > added
+
+folder: routes
+seedRoutes.js > added
+
+data.js > added (seed the data)
+
+FRONTEND
+folder: pages
+Messages.jsx > added
+
+subfolder: pages/forms
+Signin.jsx > added
+Signup.jsx > added
+
+App.jsx > updated
+main.jsx > updated pages
+vite.config.js > updated

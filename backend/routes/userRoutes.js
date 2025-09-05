@@ -127,17 +127,26 @@ userRouter.put(
 userRouter.post(
   '/signin',
   expressAsyncHandler(async (req, res) => {
-    const user = await User.findOne({ email: req.body.email });
-    if (user && bcrypt.compareSync(req.body.password, user.password)) {
-      return res.send({
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        isAdmin: user.isAdmin,
-        token: generateToken(user),
-      });
-    }
-    res.status(401).send({ message: 'Invalid email or password' });
+    const email = String(req.body.email || '')
+      .trim()
+      .toLowerCase();
+    const password = String(req.body.password || '');
+
+    const user = await User.findOne({ email });
+    if (!user)
+      return res.status(401).send({ message: 'Invalid email or password' });
+
+    const ok = await bcrypt.compare(password, user.password);
+    if (!ok)
+      return res.status(401).send({ message: 'Invalid email or password' });
+
+    res.send({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      token: generateToken(user),
+    });
   })
 );
 
@@ -145,7 +154,11 @@ userRouter.post(
 userRouter.post(
   '/signup',
   expressAsyncHandler(async (req, res) => {
-    const { name, email, password } = req.body;
+    const name = String(req.body.name || '').trim();
+    const email = String(req.body.email || '')
+      .trim()
+      .toLowerCase();
+    const password = String(req.body.password || '');
 
     // Password complexity (8+ chars, upper, lower, digit, special)
     const passwordRegex =

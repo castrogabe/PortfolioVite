@@ -3,10 +3,14 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import path from 'node:path';
+import seedRouter from './routes/seedRoutes.js';
 import { fileURLToPath } from 'node:url';
 import dotenv from 'dotenv';
 import userRouter from './routes/userRoutes.js';
 import messageRouter from './routes/messageRoutes.js';
+import summaryRouter from './routes/summaryRoutes.js';
+import websiteRouter from './routes/websiteRoutes.js';
+import uploadRouter from './routes/uploadRoutes.js';
 
 dotenv.config();
 
@@ -29,6 +33,10 @@ app.use(express.urlencoded({ extended: true }));
 // routes
 app.use('/api/users', userRouter);
 app.use('/api/messages', messageRouter);
+app.use('/api/seed', seedRouter);
+app.use('/api/summary', summaryRouter);
+app.use('/api/website', websiteRouter);
+app.use('/api/upload', uploadRouter);
 
 // Simple list
 app.get('/api/websites', async (_req, res) => {
