@@ -8,26 +8,30 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './index.css';
 import { StoreProvider } from './Store.jsx';
 
+// user protected pages
+import ProtectedRoute from './components/ProtectedRoute.jsx';
+
 // admin pages
 import AdminRoute from './components/AdminRoute.jsx';
-import Dashboard from './pages/Dashboard.jsx';
-import Messages from './pages/Messages.jsx';
+import Dashboard from './pages/admin/Dashboard.jsx';
+import Messages from './pages/admin/Messages.jsx';
+import UserList from './pages/admin/UserList.jsx';
+import UserEdit from './pages/admin/UserEdit.jsx';
 
 // pages
 import Home from './pages/Home.jsx';
 import About from './pages/About.jsx';
 import Design from './pages/Design.jsx';
-import Portfolio from './pages/Portfolio.jsx'; // <- rename file if needed
+import Portfolio from './pages/Portfolio.jsx';
 import Contact from './pages/Contact.jsx';
+import NotFound from './pages/NotFound.jsx';
+
+// forms
 import Signin from './pages/forms/Signin.jsx';
 import Signup from './pages/forms/Signup.jsx';
 import Profile from './pages/forms/Profile.jsx';
 import ForgetPassword from './pages/forms/ForgetPassword.jsx';
 import ResetPassword from './pages/forms/ResetPassword.jsx';
-import NotFound from './pages/NotFound.jsx';
-
-// user protected pages
-import ProtectedRoute from './components/ProtectedRoute.jsx';
 
 const router = createBrowserRouter([
   {
@@ -69,6 +73,22 @@ const router = createBrowserRouter([
         element: (
           <AdminRoute>
             <Dashboard />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: 'admin/users',
+        element: (
+          <AdminRoute>
+            <UserList />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: 'admin/users/:id',
+        element: (
+          <AdminRoute>
+            <UserEdit />
           </AdminRoute>
         ),
       },

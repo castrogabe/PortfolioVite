@@ -1,9 +1,9 @@
 import { useContext, useEffect, useReducer } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Chart from 'react-google-charts';
-import LoadingBox from '../components/LoadingBox.jsx';
-import MessageBox from '../components/MessageBox.jsx';
-import { Store } from '../Store';
+import LoadingBox from '../../components/LoadingBox.jsx';
+import MessageBox from '../../components/MessageBox.jsx';
+import { Store } from '../../Store';
 
 const reducer = (state, action) => {
   switch (action.type) {

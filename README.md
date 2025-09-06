@@ -155,7 +155,7 @@ App.jsx > updated
 main.jsx > updated pages
 vite.config.js > updated
 
-# 7th Commit-Profile, ForgetPassword, ResetPassword
+# 7th Commit-Profile, ForgetPassword, ResetPassword, Dashboard
 
 FRONTEND
 npm i react-react-google-charts --force
@@ -173,3 +173,17 @@ ResetPassword.jsx > added
 
 main.jsx > updated with new pages
 {}package.json > updated
+
+# 8th Commit-Admin, Users
+
+BACKEND
+
+FRONTEND
+folder: components
+AdminPagination.jsx > updated with WebsiteList instead of OrderList
+
+folder: pages > subfolder > admin
+Dashboard.jsx > moved into admin subfolder
+Messages.jsx > moved into admin subfolder
+UserEdit.jsx > added
+UserList.jsx > added
