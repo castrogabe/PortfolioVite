@@ -42,8 +42,7 @@ const reducer = (state, action) => {
 export default function UserList() {
   const navigate = useNavigate();
   const { search } = useLocation();
-  const sp = new URLSearchParams(search);
-  const page = Number(sp.get('page') || 1);
+  const page = Number(new URLSearchParams(search).get('page') || 1);
 
   const [
     { loading, error, users, totalUsers, loadingDelete, successDelete, pages },
@@ -163,6 +162,7 @@ export default function UserList() {
         currentPage={page}
         totalPages={pages}
         basePath='/admin/users'
+        showIfSinglePage // <-- forces it to render even with one page
       />
       <br />
     </div>

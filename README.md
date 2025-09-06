@@ -176,8 +176,6 @@ main.jsx > updated with new pages
 
 # 8th Commit-Admin, Users
 
-BACKEND
-
 FRONTEND
 folder: components
 AdminPagination.jsx > updated with WebsiteList instead of OrderList
@@ -187,3 +185,20 @@ Dashboard.jsx > moved into admin subfolder
 Messages.jsx > moved into admin subfolder
 UserEdit.jsx > added
 UserList.jsx > added
+
+# 9th Commit-Websites
+
+BACKEND
+server.js > updated app.use('/api/websites', websiteRouter); > website to websites
+
+FRONTEND
+folder: components
+AdminPagination.jsx > updated
+
+folder: pages > admin
+Messages.jsx > updated
+UserList.jsx > updated
+WebsiteEdit.jsx > added
+WebsiteList.jsx > added
+
+main.jsx > updated with pages

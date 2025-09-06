@@ -35,7 +35,7 @@ app.use('/api/users', userRouter);
 app.use('/api/messages', messageRouter);
 app.use('/api/seed', seedRouter);
 app.use('/api/summary', summaryRouter);
-app.use('/api/website', websiteRouter);
+app.use('/api/websites', websiteRouter);
 app.use('/api/upload', uploadRouter);
 
 // Simple list

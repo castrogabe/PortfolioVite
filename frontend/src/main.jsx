@@ -17,6 +17,8 @@ import Dashboard from './pages/admin/Dashboard.jsx';
 import Messages from './pages/admin/Messages.jsx';
 import UserList from './pages/admin/UserList.jsx';
 import UserEdit from './pages/admin/UserEdit.jsx';
+import WebsiteList from './pages/admin/WebsiteList.jsx';
+import WebsiteEdit from './pages/admin/WebsiteEdit.jsx';
 
 // pages
 import Home from './pages/Home.jsx';
@@ -89,6 +91,22 @@ const router = createBrowserRouter([
         element: (
           <AdminRoute>
             <UserEdit />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: 'admin/websites',
+        element: (
+          <AdminRoute>
+            <WebsiteList />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: 'admin/websites/:id', // you already navigate to this path
+        element: (
+          <AdminRoute>
+            <WebsiteEdit />
           </AdminRoute>
         ),
       },

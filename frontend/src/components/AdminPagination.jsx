@@ -3,30 +3,25 @@ import { Link } from 'react-router-dom';
 export default function AdminPagination({
   currentPage = 1,
   totalPages = 1,
-  /** Optional explicit path override (recommended): e.g. "/admin/users" */
   basePath = '',
-  /** For fallback mapping only */
   isAdmin = true,
-  /** Fallback keyword mapping when basePath isn't provided */
   keyword = '',
+  showIfSinglePage = false, // <-- new
 }) {
   const pageNum = Number(currentPage) || 1;
   const total = Math.max(Number(totalPages) || 1, 1);
 
-  if (total <= 1) return null;
+  if (!showIfSinglePage && total <= 1) return null;
 
   const resolvePath = () => {
-    if (basePath) return basePath; // preferred
-
-    // Fallback mapping for legacy uses (kept simple for Portfolio)
+    if (basePath) return basePath;
     if (isAdmin) {
       switch (keyword) {
         case 'UserList':
           return '/admin/users';
         case 'Messages':
           return '/admin/messages';
-        case 'WebsiteList': // <-- replacement for old OrderList
-          return '/admin/websites';
+        case 'WebsiteList':
         default:
           return '/admin/websites';
       }
@@ -45,18 +40,73 @@ export default function AdminPagination({
   };
 
   const pathname = resolvePath();
+  const mk = (p) => ({ pathname, search: `?page=${p}` });
   const pages = Array.from({ length: total }, (_, i) => i + 1);
+
+  const Disabled = ({ children }) => (
+    <li className='page-item disabled'>
+      <span className='page-link'>{children}</span>
+    </li>
+  );
 
   return (
     <nav aria-label='Pagination'>
       <ul className='pagination'>
+        {pageNum > 1 ? (
+          <>
+            <li className='page-item'>
+              <Link className='page-link' to={mk(1)} aria-label='First'>
+                «
+              </Link>
+            </li>
+            <li className='page-item'>
+              <Link
+                className='page-link'
+                to={mk(pageNum - 1)}
+                aria-label='Previous'
+              >
+                ‹
+              </Link>
+            </li>
+          </>
+        ) : (
+          <>
+            <Disabled>«</Disabled>
+            <Disabled>‹</Disabled>
+          </>
+        )}
+
         {pages.map((p) => (
           <li key={p} className={`page-item ${pageNum === p ? 'active' : ''}`}>
-            <Link className='page-link' to={{ pathname, search: `?page=${p}` }}>
+            <Link className='page-link' to={mk(p)}>
               {p}
             </Link>
           </li>
         ))}
+
+        {pageNum < total ? (
+          <>
+            <li className='page-item'>
+              <Link
+                className='page-link'
+                to={mk(pageNum + 1)}
+                aria-label='Next'
+              >
+                ›
+              </Link>
+            </li>
+            <li className='page-item'>
+              <Link className='page-link' to={mk(total)} aria-label='Last'>
+                »
+              </Link>
+            </li>
+          </>
+        ) : (
+          <>
+            <Disabled>›</Disabled>
+            <Disabled>»</Disabled>
+          </>
+        )}
       </ul>
     </nav>
   );
