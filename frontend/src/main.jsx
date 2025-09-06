@@ -10,6 +10,7 @@ import { StoreProvider } from './Store.jsx';
 
 // admin pages
 import AdminRoute from './components/AdminRoute.jsx';
+import Dashboard from './pages/Dashboard.jsx';
 import Messages from './pages/Messages.jsx';
 
 // pages
@@ -20,7 +21,13 @@ import Portfolio from './pages/Portfolio.jsx'; // <- rename file if needed
 import Contact from './pages/Contact.jsx';
 import Signin from './pages/forms/Signin.jsx';
 import Signup from './pages/forms/Signup.jsx';
+import Profile from './pages/forms/Profile.jsx';
+import ForgetPassword from './pages/forms/ForgetPassword.jsx';
+import ResetPassword from './pages/forms/ResetPassword.jsx';
 import NotFound from './pages/NotFound.jsx';
+
+// user protected pages
+import ProtectedRoute from './components/ProtectedRoute.jsx';
 
 const router = createBrowserRouter([
   {
@@ -35,12 +42,33 @@ const router = createBrowserRouter([
       { path: 'contact', element: <Contact /> },
       { path: 'signin', element: <Signin /> },
       { path: 'signup', element: <Signup /> },
+      { path: 'forgot-password', element: <ForgetPassword /> },
+
+      // Protected Route
+      { path: 'reset-password/:token', element: <ResetPassword /> },
+      {
+        path: 'profile',
+        element: (
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        ),
+      },
+
       // admin route
       {
         path: 'admin/messages',
         element: (
           <AdminRoute>
             <Messages />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: 'admin/dashboard',
+        element: (
+          <AdminRoute>
+            <Dashboard />
           </AdminRoute>
         ),
       },

@@ -132,7 +132,7 @@ Header.jsx > updated
 folder: pages
 Messages.jsx > added
 
-# 6th Commit-Admin Signup, Signin, Messages, Upload seed data,
+# 6th Commit-Admin Signup, Signin, Messages, Upload seed data
 
 BACKEND
 folder: models
@@ -154,3 +154,22 @@ Signup.jsx > added
 App.jsx > updated
 main.jsx > updated pages
 vite.config.js > updated
+
+# 7th Commit-Profile, ForgetPassword, ResetPassword
+
+FRONTEND
+npm i react-react-google-charts --force
+
+folder: components
+ProtectedRoute.jsx > added
+
+folder: pages
+Dashboard.jsx added
+
+subfolder: forms
+ForgetPassword.jsx > added
+Profile.jsx > added
+ResetPassword.jsx > added
+
+main.jsx > updated with new pages
+{}package.json > updated
