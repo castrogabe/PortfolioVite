@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import LoadingBox from '../../components/LoadingBox.jsx';
 import MessageBox from '../../components/MessageBox.jsx';
 import { Store } from '../../Store';
-import { getError } from '../../utils';
+import { getError, getImageUrl } from '../../utils';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -141,173 +141,177 @@ export default function WebsiteEdit() {
 
   return (
     <div className='content'>
+      <br />
       <Helmet>
         <title>Edit Website {id}</title>
       </Helmet>
-      <br />
-      <div className='d-flex justify-content-between align-items-center'>
-        <h4 className='box mb-0'>Edit Website {id}</h4>
-        <Link to='/admin/websites' className='btn btn-outline-secondary'>
-          Back
-        </Link>
-      </div>
 
-      {loading ? (
-        <LoadingBox />
-      ) : error ? (
-        <MessageBox variant='danger'>{error}</MessageBox>
-      ) : (
-        <div className='box' style={{ maxWidth: 800 }}>
-          <form onSubmit={submitHandler} noValidate>
-            <div className='mb-3'>
-              <label htmlFor='name' className='form-label'>
-                Name
-              </label>
-              <input
-                id='name'
-                className='form-control'
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-              />
-            </div>
+      <div className='container'>
+        <div className='box mx-auto'>
+          <div className='d-flex align-items-center justify-content-between'>
+            <h4 className='mb-0'>Edit Website {id}</h4>
+            <Link to='/admin/websites' className='btn btn-outline-secondary'>
+              Back
+            </Link>
+          </div>
+        </div>
 
-            <div className='mb-3'>
-              <label htmlFor='slug' className='form-label'>
-                Slug
-              </label>
-              <input
-                id='slug'
-                className='form-control'
-                value={slug}
-                onChange={(e) => setSlug(e.target.value)}
-                required
-              />
-              <div className='form-text'>Unique identifier used in URLs.</div>
-            </div>
-
-            <div className='mb-3'>
-              <label htmlFor='image' className='form-label'>
-                Image URL
-              </label>
-              <input
-                id='image'
-                className='form-control'
-                value={image}
-                onChange={(e) => setImage(e.target.value)}
-                required
-              />
-              <div className='mt-2 d-flex align-items-center gap-2'>
+        {loading ? (
+          <LoadingBox />
+        ) : error ? (
+          <MessageBox variant='danger'>{error}</MessageBox>
+        ) : (
+          <div className='box row g-3'>
+            <form onSubmit={submitHandler} noValidate>
+              <div className='mb-3'>
+                <label htmlFor='name' className='form-label'>
+                  Name
+                </label>
                 <input
-                  type='file'
-                  accept='image/*'
+                  id='name'
                   className='form-control'
-                  onChange={uploadFileHandler}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
                 />
-                {loadingUpload && (
-                  <span
-                    className='spinner-border spinner-border-sm'
-                    role='status'
-                    aria-hidden='true'
-                  />
-                )}
               </div>
-              {image && (
-                <div className='mt-3'>
-                  <img
-                    src={image}
-                    alt='preview'
-                    className='img-fluid rounded img-thumbnail'
-                    style={{ maxWidth: 300, height: 'auto' }}
+
+              <div className='mb-3'>
+                <label htmlFor='slug' className='form-label'>
+                  Slug
+                </label>
+                <input
+                  id='slug'
+                  className='form-control'
+                  value={slug}
+                  onChange={(e) => setSlug(e.target.value)}
+                  required
+                />
+                <div className='form-text'>Unique identifier used in URLs.</div>
+              </div>
+
+              <div className='mb-3'>
+                <label htmlFor='image' className='form-label'>
+                  Image URL
+                </label>
+                <input
+                  id='image'
+                  className='form-control'
+                  value={image}
+                  onChange={(e) => setImage(e.target.value)}
+                  required
+                />
+                <div className='mt-2 d-flex align-items-center gap-2'>
+                  <input
+                    type='file'
+                    accept='image/*'
+                    className='form-control'
+                    onChange={uploadFileHandler}
                   />
-                </div>
-              )}
-            </div>
-
-            <div className='mb-3'>
-              <label htmlFor='language' className='form-label'>
-                Language
-              </label>
-              <input
-                id='language'
-                className='form-control'
-                value={language}
-                onChange={(e) => setLanguage(e.target.value)}
-                required
-              />
-            </div>
-
-            <div className='mb-3'>
-              <label htmlFor='languageDescription' className='form-label'>
-                Language Description
-              </label>
-              <input
-                id='languageDescription'
-                className='form-control'
-                value={languageDescription}
-                onChange={(e) => setLanguageDescription(e.target.value)}
-                required
-              />
-            </div>
-
-            <div className='mb-3'>
-              <label htmlFor='description' className='form-label'>
-                Description
-              </label>
-              <textarea
-                id='description'
-                className='form-control'
-                rows={5}
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                required
-              />
-            </div>
-
-            <div className='mb-3'>
-              <label htmlFor='link' className='form-label'>
-                Link
-              </label>
-              <input
-                id='link'
-                type='url'
-                className='form-control'
-                value={link}
-                onChange={(e) => setLink(e.target.value)}
-                required
-              />
-              {link && (
-                <div className='form-text'>
-                  <a href={link} target='_blank' rel='noopener noreferrer'>
-                    Open site ↗
-                  </a>
-                </div>
-              )}
-            </div>
-
-            <div className='mb-3 d-grid'>
-              <button
-                type='submit'
-                className='btn btn-primary'
-                disabled={loadingUpdate}
-              >
-                {loadingUpdate ? (
-                  <>
+                  {loadingUpload && (
                     <span
-                      className='spinner-border spinner-border-sm me-2'
+                      className='spinner-border spinner-border-sm'
                       role='status'
                       aria-hidden='true'
                     />
-                    Saving…
-                  </>
-                ) : (
-                  'Save Changes'
+                  )}
+                </div>
+                {image && (
+                  <div className='mt-3'>
+                    <img
+                      src={getImageUrl(image)}
+                      alt='preview'
+                      className='img-thumb'
+                    />
+                  </div>
                 )}
-              </button>
-            </div>
-          </form>
-        </div>
-      )}
+              </div>
+
+              <div className='mb-3'>
+                <label htmlFor='language' className='form-label'>
+                  Language
+                </label>
+                <input
+                  id='language'
+                  className='form-control'
+                  value={language}
+                  onChange={(e) => setLanguage(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className='mb-3'>
+                <label htmlFor='languageDescription' className='form-label'>
+                  Language Description
+                </label>
+                <input
+                  id='languageDescription'
+                  className='form-control'
+                  value={languageDescription}
+                  onChange={(e) => setLanguageDescription(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className='mb-3'>
+                <label htmlFor='description' className='form-label'>
+                  Description
+                </label>
+                <textarea
+                  id='description'
+                  className='form-control'
+                  rows={5}
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className='mb-3'>
+                <label htmlFor='link' className='form-label'>
+                  Link
+                </label>
+                <input
+                  id='link'
+                  type='url'
+                  className='form-control'
+                  value={link}
+                  onChange={(e) => setLink(e.target.value)}
+                  required
+                />
+                {link && (
+                  <div className='form-text'>
+                    <a href={link} target='_blank' rel='noopener noreferrer'>
+                      Open site ↗
+                    </a>
+                  </div>
+                )}
+              </div>
+
+              <div className='mb-3 d-grid'>
+                <button
+                  type='submit'
+                  className='btn btn-primary'
+                  disabled={loadingUpdate}
+                >
+                  {loadingUpdate ? (
+                    <>
+                      <span
+                        className='spinner-border spinner-border-sm me-2'
+                        role='status'
+                        aria-hidden='true'
+                      />
+                      Saving…
+                    </>
+                  ) : (
+                    'Save Changes'
+                  )}
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

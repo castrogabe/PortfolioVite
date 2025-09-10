@@ -202,3 +202,32 @@ WebsiteEdit.jsx > added
 WebsiteList.jsx > added
 
 main.jsx > updated with pages
+
+# 10th Commit-Image upload
+
+BACKEND
+folder: routes
+uploadRoutes.js > updated
+
+uploads folder added in root (images)
+
+server.js > updated with uploads
+
+FRONTEND
+public
+site.webmanifest > added
+
+folder: components
+WebsiteCard.jsx > updated
+
+folder: pages
+Home.jsx > updated
+
+folder: admin
+WebsiteEdit.jsx > updated
+WebsiteList.jsx > updated
+
+styles > portfolio.css > updated for images
+
+utils.jsx > updated
+vite.config > updated

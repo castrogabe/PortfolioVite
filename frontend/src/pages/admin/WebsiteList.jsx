@@ -6,7 +6,7 @@ import LoadingBox from '../../components/LoadingBox.jsx';
 import MessageBox from '../../components/MessageBox.jsx';
 import AdminPagination from '../../components/AdminPagination.jsx';
 import { Store } from '../../Store';
-import { getError } from '../../utils';
+import { getError, getImageUrl } from '../../utils';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -191,10 +191,9 @@ export default function WebsiteList() {
                       {website._id}
                       <div className='mt-2'>
                         <img
-                          src={website.image}
+                          src={getImageUrl(website.image)}
                           alt={website.name}
-                          className='img-fluid rounded img-thumbnail'
-                          style={{ width: '225px', height: 'auto' }}
+                          className='img-thumb'
                         />
                         <br />
                         <Link to={`/website/${website.slug}`}>

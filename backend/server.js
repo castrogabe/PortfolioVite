@@ -11,6 +11,7 @@ import messageRouter from './routes/messageRoutes.js';
 import summaryRouter from './routes/summaryRoutes.js';
 import websiteRouter from './routes/websiteRoutes.js';
 import uploadRouter from './routes/uploadRoutes.js';
+import fs from 'node:fs';
 
 dotenv.config();
 
@@ -29,6 +30,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// uploads
+const uploadDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
+app.use('/uploads', express.static(uploadDir));
 
 // routes
 app.use('/api/users', userRouter);
