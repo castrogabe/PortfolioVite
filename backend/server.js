@@ -11,6 +11,7 @@ import messageRouter from './routes/messageRoutes.js';
 import summaryRouter from './routes/summaryRoutes.js';
 import websiteRouter from './routes/websiteRoutes.js';
 import uploadRouter from './routes/uploadRoutes.js';
+import homeContentRouter from './routes/homeContentRoutes.js';
 import fs from 'node:fs';
 
 dotenv.config();
@@ -43,39 +44,7 @@ app.use('/api/seed', seedRouter);
 app.use('/api/summary', summaryRouter);
 app.use('/api/websites', websiteRouter);
 app.use('/api/upload', uploadRouter);
-
-// Simple list
-app.get('/api/websites', async (_req, res) => {
-  try {
-    const websites = await Website.find();
-    res.json(websites);
-  } catch (error) {
-    res.status(500).json({ message: 'Error fetching websites' });
-  }
-});
-
-// Optional: pagination/search endpoint to match your Vite frontend call
-// GET /api/websites/search?page=1&pageSize=10
-app.get('/api/websites/search', async (req, res) => {
-  try {
-    const page = Math.max(parseInt(req.query.page || '1', 10), 1);
-    const pageSize = Math.max(parseInt(req.query.pageSize || '10', 10), 1);
-
-    const filter = {}; // add keyword/category filters later
-    const countWebsites = await Website.countDocuments(filter);
-    const pages = Math.max(Math.ceil(countWebsites / pageSize), 1);
-    const skip = (page - 1) * pageSize;
-
-    const websites = await Website.find(filter)
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(pageSize);
-
-    res.json({ websites, page, pages, countWebsites });
-  } catch (err) {
-    res.status(500).json({ message: 'Error fetching websites' });
-  }
-});
+app.use('/api/homecontent', homeContentRouter);
 
 /**
  * Static files:

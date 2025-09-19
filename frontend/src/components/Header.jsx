@@ -17,7 +17,6 @@ export default function Header() {
     navigate('/signin');
   };
 
-  // send users back to where they started after signin
   const signInHref = `/signin?redirect=${encodeURIComponent(
     location.pathname + location.search
   )}`;
@@ -82,56 +81,13 @@ export default function Header() {
                 </NavLink>
               </li>
 
-              {/* Web Design (use your preferred route) */}
+              {/* Web Design */}
               <li className='nav-item'>
                 <NavLink to='/webdesign' className={navLink}>
                   <i className='fas fa-layer-group' aria-hidden='true' /> Web
                   Design
                 </NavLink>
               </li>
-
-              {/* Auth menu */}
-              {userInfo ? (
-                <li className='nav-item dropdown'>
-                  <button
-                    className='nav-link dropdown-toggle'
-                    id='userDropdown'
-                    data-bs-toggle='dropdown'
-                    aria-expanded='false'
-                    type='button'
-                  >
-                    {userInfo.name}
-                  </button>
-                  <ul
-                    className='dropdown-menu dropdown-menu-end'
-                    aria-labelledby='userDropdown'
-                  >
-                    <li>
-                      <Link className='dropdown-item' to='/profile'>
-                        User Profile
-                      </Link>
-                    </li>
-                    <li>
-                      <hr className='dropdown-divider' />
-                    </li>
-                    <li>
-                      <button
-                        className='dropdown-item'
-                        onClick={signoutHandler}
-                      >
-                        Sign Out
-                      </button>
-                    </li>
-                  </ul>
-                </li>
-              ) : (
-                <li className='nav-item'>
-                  <NavLink to={signInHref} className={navLink}>
-                    <i className='fas fa-sign-in-alt' aria-hidden='true' /> Sign
-                    In
-                  </NavLink>
-                </li>
-              )}
 
               {/* Admin menu */}
               {userInfo?.isAdmin && (
@@ -140,11 +96,13 @@ export default function Header() {
                     className='nav-link dropdown-toggle'
                     id='adminDropdown'
                     data-bs-toggle='dropdown'
+                    data-bs-auto-close='outside' // keep submenu open while interacting
                     aria-expanded='false'
                     type='button'
                   >
                     Admin
                   </button>
+
                   <ul
                     className='dropdown-menu dropdown-menu-end'
                     aria-labelledby='adminDropdown'
@@ -168,6 +126,59 @@ export default function Header() {
                       <Link className='dropdown-item' to='/admin/messages'>
                         Messages
                       </Link>
+                    </li>
+
+                    {/* Edit Pages submenu (green) */}
+                    <li className='nav-item dropdown'>
+                      <button
+                        className='dropdown-item dropdown-toggle text-white bg-success fw-semibold'
+                        id='editPagesDropdown'
+                        data-bs-toggle='dropdown'
+                        aria-expanded='false'
+                        type='button'
+                      >
+                        Edit Pages
+                      </button>
+                      <ul
+                        className='dropdown-menu'
+                        aria-labelledby='editPagesDropdown'
+                      >
+                        <li>
+                          <Link
+                            className='dropdown-item'
+                            to='/admin/homecontent'
+                          >
+                            Home Edit
+                          </Link>
+                        </li>
+
+                        <li>
+                          <Link
+                            className='dropdown-item'
+                            to='/admin/aboutusedit'
+                          >
+                            About Edit
+                          </Link>
+                        </li>
+
+                        <li>
+                          <Link
+                            className='dropdown-item'
+                            to='/admin/designedit'
+                          >
+                            Design Edit
+                          </Link>
+                        </li>
+
+                        <li>
+                          <Link
+                            className='dropdown-item'
+                            to='/admin/portfolioedit'
+                          >
+                            PortfolioEdit
+                          </Link>
+                        </li>
+                      </ul>
                     </li>
                   </ul>
                 </li>

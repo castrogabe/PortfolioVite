@@ -24,7 +24,7 @@ websiteRouter.post(
       slug: String(Date.now()),
       image: '/images/',
       language: 'MERN Stack',
-      languageDescription: 'MongoDB, Express, AngularJS, Node.js',
+      languageDescription: 'MongoDB, Express, React, Node.js',
       description: 'description',
       link: 'https://www.domain.com',
     });
@@ -78,6 +78,7 @@ websiteRouter.get(
     const pageSize = Number(req.query.pageSize) || PAGE_SIZE;
 
     const websites = await Website.find()
+      .sort({ createdAt: -1 })
       .skip(pageSize * (page - 1))
       .limit(pageSize);
 
@@ -92,24 +93,30 @@ websiteRouter.get(
   })
 );
 
+// GET /api/websites/search?q=react&page=1&pageSize=10
 websiteRouter.get(
   '/search',
   expressAsyncHandler(async (req, res) => {
-    const page = Number(req.query.page) || 1;
-    const pageSize = Number(req.query.pageSize) || PAGE_SIZE;
+    const page = Math.max(parseInt(req.query.page || '1', 10), 1);
+    const pageSize = Math.max(parseInt(req.query.pageSize || '10', 10), 1);
+    const q = (req.query.q || '').trim();
 
-    const websites = await Website.find()
-      .skip(pageSize * (page - 1))
+    // Simple regex-based keyword filter over a few fields
+    const regex = q ? new RegExp(q, 'i') : null;
+    const filter = q
+      ? { $or: [{ name: regex }, { description: regex }, { language: regex }] }
+      : {};
+
+    const countWebsites = await Website.countDocuments(filter);
+    const pages = Math.max(Math.ceil(countWebsites / pageSize), 1);
+    const skip = (page - 1) * pageSize;
+
+    const websites = await Website.find(filter)
+      .sort({ createdAt: -1 })
+      .skip(skip)
       .limit(pageSize);
 
-    const countWebsites = await Website.countDocuments();
-
-    res.send({
-      websites,
-      totalWebsites: countWebsites,
-      page,
-      pages: Math.ceil(countWebsites / pageSize),
-    });
+    res.json({ websites, page, pages, countWebsites });
   })
 );
 
