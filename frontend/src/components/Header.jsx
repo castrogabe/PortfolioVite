@@ -65,11 +65,6 @@ export default function Header() {
                       Contact Us
                     </Link>
                   </li>
-                  <li>
-                    <Link className='dropdown-item' to='/faq'>
-                      FAQ
-                    </Link>
-                  </li>
                 </ul>
               </li>
 

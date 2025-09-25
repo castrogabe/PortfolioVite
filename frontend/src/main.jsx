@@ -20,9 +20,9 @@ import UserEdit from './pages/admin/UserEdit.jsx';
 import WebsiteList from './pages/admin/WebsiteList.jsx';
 import WebsiteEdit from './pages/admin/WebsiteEdit.jsx';
 import HomeContentEdit from './pages/admin/HomeContentEdit.jsx';
+import AboutUsEdit from './pages/admin/AboutUsEdit.jsx';
 
 // (optional placeholders if you already linked them in the menu)
-// import AboutUsEdit from './pages/admin/AboutUsEdit.jsx';
 // import DesignEdit from './pages/admin/DesignEdit.jsx';
 // import Portfolio from './pages/admin/PortfolioEdit.jsx';
 
@@ -124,16 +124,15 @@ const router = createBrowserRouter([
           </AdminRoute>
         ),
       },
-
-      // edit pages
-      // {
-      //   path: 'admin/aboutusedit',
-      //   element: (
-      //     <AdminRoute>
-      //       <AboutUsEdit />
-      //     </AdminRoute>
-      //   ),
-      // },
+      {
+        path: 'admin/aboutusedit',
+        element: (
+          <AdminRoute>
+            <AboutUsEdit />
+          </AdminRoute>
+        ),
+      },
+      // future edit pages
       // {
       //   path: 'admin/designedit',
       //   element: (

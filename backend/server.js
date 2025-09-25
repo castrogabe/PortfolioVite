@@ -13,6 +13,7 @@ import websiteRouter from './routes/websiteRoutes.js';
 import uploadRouter from './routes/uploadRoutes.js';
 import homeContentRouter from './routes/homeContentRoutes.js';
 import fs from 'node:fs';
+import aboutContentRouter from './routes/aboutContentRoutes.js';
 
 dotenv.config();
 
@@ -45,6 +46,7 @@ app.use('/api/summary', summaryRouter);
 app.use('/api/websites', websiteRouter);
 app.use('/api/upload', uploadRouter);
 app.use('/api/homecontent', homeContentRouter);
+app.use('/api/aboutcontent', aboutContentRouter);
 
 /**
  * Static files:
