@@ -21,10 +21,10 @@ import WebsiteList from './pages/admin/WebsiteList.jsx';
 import WebsiteEdit from './pages/admin/WebsiteEdit.jsx';
 import HomeContentEdit from './pages/admin/HomeContentEdit.jsx';
 import AboutUsEdit from './pages/admin/AboutUsEdit.jsx';
+import DesignEdit from './pages/admin/DesignContentEdit.jsx';
 
 // (optional placeholders if you already linked them in the menu)
-// import DesignEdit from './pages/admin/DesignEdit.jsx';
-// import Portfolio from './pages/admin/PortfolioEdit.jsx';
+// import Portfolio from './pages/admin/PortfolioContentEdit.jsx';
 
 // pages
 import Home from './pages/Home.jsx';
@@ -49,7 +49,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: 'about', element: <About /> },
-      { path: 'design', element: <Design /> },
+      { path: 'webdesign', element: <Design /> },
       { path: 'portfolio', element: <Portfolio /> },
       { path: 'contact', element: <Contact /> },
       { path: 'signin', element: <Signin /> },
@@ -132,15 +132,15 @@ const router = createBrowserRouter([
           </AdminRoute>
         ),
       },
+      {
+        path: 'admin/designedit',
+        element: (
+          <AdminRoute>
+            <DesignEdit />
+          </AdminRoute>
+        ),
+      },
       // future edit pages
-      // {
-      //   path: 'admin/designedit',
-      //   element: (
-      //     <AdminRoute>
-      //       <DesignEdit />
-      //     </AdminRoute>
-      //   ),
-      // },
       // {
       //   path: 'admin/portfolioedit',
       //   element: (

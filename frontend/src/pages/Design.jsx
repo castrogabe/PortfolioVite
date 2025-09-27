@@ -1,94 +1,123 @@
+// src/pages/About.jsx - CORRECTED
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import LoadingBox from '../components/LoadingBox';
+import SectionImages from '../components/SectionImages';
+
+const API_BASE = import.meta.env.VITE_API_URL ?? '';
 
 export default function Design() {
+  const [content, setContent] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        const res = await fetch(`${API_BASE}/api/designcontent`);
+        if (!res.ok) throw new Error('Failed to fetch about content');
+        const data = await res.json();
+        setContent(data);
+      } catch (error) {
+        console.error(error);
+        toast.error('Failed to load content');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchContent();
+  }, []);
+
+  if (isLoading) return <LoadingBox />;
+
+  if (!content) {
+    return (
+      <>
+        <Helmet>
+          <title>Design</title>
+        </Helmet>
+        <div className='content'>
+          <p>Content not found.</p>
+        </div>
+      </>
+    );
+  }
+
+  const sections = Array.isArray(content.sections) ? content.sections : [];
+  const firstSection = sections[0];
+  const firstSectionImage = firstSection?.images?.[0];
+  const remainingSections = sections.slice(1);
+
   return (
     <>
-      {/* Hero / banner image */}
-      <div className='keyboard'>
-        <img
-          id='image'
-          src='/images/keyBoard.jpg'
-          width='100%'
-          alt='Keyboard'
-        />
-      </div>
+      <Helmet>
+        <title>Design</title>
+      </Helmet>
 
-      <br />
+      {/* Optional Jumbotron Image */}
+      {content.jumbotronImage?.url && (
+        <div className='box'>
+          <img
+            src={content.jumbotronImage.url}
+            alt={content.jumbotronImage.name || 'Jumbotron'}
+            className='img-fluid'
+          />
+        </div>
+      )}
 
       <div className='content'>
-        <Helmet>
-          <title>Web Design</title>
-        </Helmet>
+        {/* Split layout: First section text on the left, first image on the right */}
+        {firstSection ? (
+          <div className='box'>
+            <div className='row g-4 align-items-start'>
+              {/* Text Column (Left) */}
+              <div className={firstSectionImage ? 'col-md-7' : 'col-md-12'}>
+                {firstSection.title && <h2>{firstSection.title}</h2>}
+                {firstSection.paragraphs?.map((p, i) => (
+                  <p key={i}>{p}</p>
+                ))}
+                {/* Note: Other images from the first section will not display here */}
+              </div>
 
-        <div className='row g-4'>
-          {/* Left column */}
-          <div className='col-12 col-md-6'>
-            <div className='box'>
-              <h4>Web Design</h4>
-              <ol>
-                <li>
-                  The process of designing a website: email me to schedule an
-                  appointment in [your area]. If a physical appointment is not
-                  necessary, we can chat about your vision.
-                </li>
-                <li>
-                  I will produce a written quote based on your vision and the
-                  number of revisions.
-                </li>
-                <li>
-                  I will produce a design concept of your website before any
-                  coding is done and ensure you are happy with the design.
-                </li>
-              </ol>
-              <hr />
-
-              <h4>Web Development</h4>
-              <p>
-                I have programming knowledge in HTML5, CSS3, JavaScript,
-                Angular, React, PHP, MySQL, and SEO (Search Engine Optimization)
-                to help your clients find you on the web.
-              </p>
-              <ol>
-                <li>
-                  I will program your website using code that is clean and easy
-                  to read.
-                </li>
-                <li>
-                  I test the code in my web browser to ensure everything flows
-                  and reads correctly.
-                </li>
-                <li>
-                  I design for mobile devices first, then for desktop, as most
-                  transactions are mobile-driven.
-                </li>
-                <li>
-                  I stand behind the code and product that I release to you.
-                </li>
-                <li>
-                  You will receive an email containing all the coding files from
-                  your website design.
-                </li>
-              </ol>
-              <Link to='/contact'>
-                <button className='btn btn-primary mt-3'>
-                  Contact for Quote
-                </button>
-              </Link>
+              {/* Certificate/Image Column (Right) - Use firstSectionImage data here */}
+              {firstSectionImage && (
+                <div className='col-md-5'>
+                  <div className='p-3 bg-light border rounded text-center'>
+                    <img
+                      src={firstSectionImage.url} // <-- CORRECT: Use the firstSectionImage variable
+                      alt={firstSectionImage.name || 'Certificate'}
+                      className='img-fluid'
+                      style={{
+                        maxHeight: '520px',
+                        width: '100%',
+                        objectFit: 'contain',
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           </div>
+        ) : null}
 
-          {/* Right column */}
-          <div className='col-12 col-md-6'>
-            <div className='box text-center'>
-              <img
-                src='/images/design.png'
-                alt='Web Design'
-                className='img-portfolio img-fluid'
-              />
-            </div>
+        {/* Remaining sections render below the main two-column layout */}
+        {remainingSections.map((section, index) => (
+          <div className='box' key={index}>
+            {section.title && <h2>{section.title}</h2>}
+            {section.paragraphs?.map((paragraph, paragraphIndex) => (
+              <p key={paragraphIndex}>{paragraph}</p>
+            ))}
+            {/* 🚨 ADD Button Rendering Logic HERE */}
+            {section.link && section.linkText && (
+              <a href={section.link} className='my-button'>
+                {section.linkText}
+              </a>
+            )}
+            {/* Renders all images for the current section in the loop */}
+            <SectionImages images={section.images} />{' '}
+            {/* <-- CORRECT: 'section' is defined here */}
           </div>
-        </div>
+        ))}
       </div>
     </>
   );

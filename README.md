@@ -285,3 +285,21 @@ folder: styles
 homecontentedit.css > added
 
 main.jsx > updated with admin edit pages
+
+# 13th Commit-Design Dynamic
+
+BACKEND
+folder: models
+designContentModel.js > added
+
+folder: routes
+designContentRoutes.js > added
+
+server.js > updated with designContentRoutes
+
+FRONTEND
+folder: pages
+folder: admin/pages
+designContentEdit.jsx > added
+
+main.jsx > uncomment admin/DesignEdit
