@@ -14,7 +14,8 @@ import uploadRouter from './routes/uploadRoutes.js';
 import homeContentRouter from './routes/homeContentRoutes.js';
 import fs from 'node:fs';
 import aboutContentRouter from './routes/aboutContentRoutes.js';
-import designContentRouter from './routes/designContentRoutes.js'; // added
+import designContentRouter from './routes/designContentRoutes.js';
+import portfolioContentRouter from './routes/portfolioContentRoutes.js'; // added
 
 dotenv.config();
 
@@ -49,6 +50,7 @@ app.use('/api/upload', uploadRouter);
 app.use('/api/homecontent', homeContentRouter);
 app.use('/api/aboutcontent', aboutContentRouter);
 app.use('/api/designcontent', designContentRouter);
+app.use('/api/portfoliocontent', portfolioContentRouter);
 
 /**
  * Static files:

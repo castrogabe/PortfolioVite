@@ -140,7 +140,7 @@ export default function Header() {
                       >
                         <li>
                           <Link
-                            className='dropdown-item'
+                            className='dropdown-item text-success'
                             to='/admin/homecontent'
                           >
                             Home Edit
@@ -149,7 +149,7 @@ export default function Header() {
 
                         <li>
                           <Link
-                            className='dropdown-item'
+                            className='dropdown-item text-success'
                             to='/admin/aboutusedit'
                           >
                             About Edit
@@ -158,7 +158,7 @@ export default function Header() {
 
                         <li>
                           <Link
-                            className='dropdown-item'
+                            className='dropdown-item text-success'
                             to='/admin/designedit'
                           >
                             Design Edit
@@ -167,7 +167,7 @@ export default function Header() {
 
                         <li>
                           <Link
-                            className='dropdown-item'
+                            className='dropdown-item text-success'
                             to='/admin/portfolioedit'
                           >
                             PortfolioEdit

@@ -300,6 +300,33 @@ server.js > updated with designContentRoutes
 FRONTEND
 folder: pages
 folder: admin/pages
-designContentEdit.jsx > added
+DesignContentEdit.jsx > added
 
 main.jsx > uncomment admin/DesignEdit
+
+# 14th Commit-Portfolio Dynamic
+
+BACKEND
+npm run dev
+
+folder: models
+portfolioContentModel.js > added
+
+folder: routes
+portfolioContentRoutes.js > added
+
+server.js > updated with portfolioContentRoutes
+
+FRONTEND
+nvm use 20
+npm run dev
+
+folder: components
+Header.jsx > updated with text-success for admin dropdowns edit pages
+
+folder: pages
+folder: admin/pages
+PortfolioContentEdit.jsx > added
+Portfolio.jsx > updated to make dynamic
+
+main.jsx > updated, uncommented PortfolioEdit.jsx

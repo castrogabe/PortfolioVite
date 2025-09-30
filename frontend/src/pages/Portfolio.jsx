@@ -1,5 +1,5 @@
 // src/pages/Portfolio.jsx
-import { useEffect, useReducer } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import LoadingBox from '../components/LoadingBox.jsx';
@@ -10,7 +10,8 @@ import Pagination from '../components/Pagination.jsx';
 // If you have an API base URL, set VITE_API_URL in .env.* files
 const API_BASE = import.meta.env.VITE_API_URL ?? '';
 
-const reducer = (state, action) => {
+// Reducer for the website list
+const websiteReducer = (state, action) => {
   switch (action.type) {
     case 'FETCH_REQUEST':
       return { ...state, loading: true, error: '' };
@@ -39,8 +40,18 @@ export default function Portfolio() {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = Number(searchParams.get('page') || 1);
 
+  // 1. New State for Portfolio Content
+  const [portfolioContent, setPortfolioContent] = useState({
+    paragraphs: [],
+    link: '/contact', // Default to /contact
+    linkText: 'Contact for Quote', // Default text
+  });
+  const [contentLoading, setContentLoading] = useState(true);
+  const [contentError, setContentError] = useState('');
+
+  // Reducer state for website list
   const [{ loading, error, websites = [], pages = 0 }, dispatch] = useReducer(
-    reducer,
+    websiteReducer,
     {
       loading: true,
       error: '',
@@ -51,6 +62,36 @@ export default function Portfolio() {
     }
   );
 
+  // 2. New Effect to Fetch Portfolio Content
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        const res = await fetch(`${API_BASE}/api/portfoliocontent`);
+        const data = await res.json();
+
+        if (res.ok) {
+          setPortfolioContent({
+            paragraphs: Array.isArray(data.paragraphs) ? data.paragraphs : [],
+            // Use fetched link/text, fall back to defaults if not set in DB
+            link: data.link || '/contact',
+            linkText: data.linkText || 'Contact for Quote',
+          });
+          setContentError('');
+        } else {
+          // It's usually fine to let this fail silently and use defaults
+          // unless the page can't function without the text.
+          setContentError(data.message || 'Failed to load intro content');
+        }
+      } catch (err) {
+        setContentError(err.message || 'Network error fetching intro content');
+      } finally {
+        setContentLoading(false);
+      }
+    };
+    fetchContent();
+  }, []); // Run only once on mount
+
+  // Existing Effect to Fetch Website List (no changes needed)
   useEffect(() => {
     let ignore = false;
 
@@ -61,7 +102,6 @@ export default function Portfolio() {
           `${API_BASE}/api/websites/search?page=${page}`,
           {
             headers: { 'Content-Type': 'application/json' },
-            credentials: 'include', // remove if you don't use cookies
           }
         );
         if (!res.ok) {
@@ -84,7 +124,6 @@ export default function Portfolio() {
   // For your Pagination component
   const getFilterUrl = (filter) => {
     const filterPage = filter.page || page;
-    // if your route is /portfolio, keep the path in links
     return { pathname: '/portfolio', search: `?page=${filterPage}` };
   };
 
@@ -98,17 +137,34 @@ export default function Portfolio() {
 
       <br />
       <div className='box'>
-        <p>
-          ~ Discover the creativity and innovation in our meticulously crafted
-          website portfolio. Dive into our collection and get inspired! ~
-        </p>
-        <Link to='/contact'>
-          <button className='btn btn-primary mt-3'>Contact for Quote</button>
-        </Link>
+        {/* 3. Render Dynamic Content */}
+        {contentLoading ? (
+          <LoadingBox size='sm' />
+        ) : contentError ? (
+          // Display an error or fallback text if content failed to load
+          <MessageBox variant='danger'>{contentError}</MessageBox>
+        ) : (
+          <>
+            {/* Render each paragraph from the fetched array */}
+            {portfolioContent.paragraphs.map((p, index) => (
+              <p key={index}>{p}</p>
+            ))}
+
+            {/* Render the dynamic Link/Button */}
+            {portfolioContent.link && portfolioContent.linkText && (
+              <Link to={portfolioContent.link}>
+                <button className='btn btn-primary mt-3'>
+                  {portfolioContent.linkText}
+                </button>
+              </Link>
+            )}
+          </>
+        )}
       </div>
 
       <br />
 
+      {/* Rest of the component for website list */}
       {loading ? (
         <LoadingBox />
       ) : error ? (
@@ -117,7 +173,6 @@ export default function Portfolio() {
         <>
           {websites.length === 0 && <MessageBox>No Website Found</MessageBox>}
 
-          {/* Grid without react-bootstrap */}
           <div className='row g-3'>
             {websites.map((website, idx) => (
               <div className='col-12 box' key={idx}>
@@ -126,12 +181,11 @@ export default function Portfolio() {
             ))}
           </div>
 
-          {/* Pagination */}
           <Pagination
             currentPage={page}
             totalPages={pages}
             getFilterUrl={getFilterUrl}
-            onPageChange={goToPage} // if your Pagination can call this; otherwise it can use getFilterUrl
+            onPageChange={goToPage}
           />
           <br />
         </>
